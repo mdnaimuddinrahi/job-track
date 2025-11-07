@@ -1,0 +1,68 @@
+🏗 Project Breakdown – Quick Job Application Tracker
+🎯 Core Problem
+
+Job seekers apply to dozens of jobs but forget:
+
+Which companies they applied to
+
+The date they applied
+
+When to follow up
+
+The status of each application
+
+Your app solves this by keeping everything organized in one place.
+
+🔑 Key Features
+
+Here’s what I suggest for MVP (Minimum Viable Product):
+
+Authentication
+
+Users can register/login.
+
+Each user only sees their own job applications.
+
+Job Application CRUD
+
+Add new job application:
+
+Company Name
+
+Position / Role
+
+Job Source (LinkedIn, Email, Referral, etc.)
+
+Date Applied
+
+Status (Applied, Interview, Offer, Rejected)
+
+Notes (optional)
+
+Edit or Delete applications.
+
+Search & filter applications (by status/company).
+
+Follow-Up Reminder
+
+After X days (customizable), system sends an email notification:
+
+“It’s been 7 days since you applied to Google for Backend Developer. Time to follow up?”
+
+Dashboard
+
+Show a summary chart:
+
+Total Applied
+
+Interviews Scheduled
+
+Offers Received
+
+Rejections
+
+Quick filters (see only Applied, only Rejected, etc.).
+
+Export
+
+Option to export all data as CSV for record keeping.
