@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CompanyResource;
 use App\Common\ResponseCode;
 use App\Http\Services\CompanyService;
 use App\Models\Company;
@@ -17,16 +16,14 @@ class CompanyController extends Controller
         return $this->sendResponse([
             'companies' => $companyServiceObj->getCompanyList($request->all()),
             'columns' => $companyServiceObj->columnNames(),
-        ], ResponseCode::CONTINUE, 
-        'Company list fetched successfully.');
+        ], ResponseCode::CONTINUE);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        [$statusCode, $data] = CompanyService::newCompany($request->all());
+        
+        return $this->sendResponse($data, $statusCode);
     }
 
     /**

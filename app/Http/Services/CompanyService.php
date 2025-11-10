@@ -3,7 +3,9 @@
 namespace App\Http\Services;
 
 use App\Common\DefaultValue;
+use App\Common\ResponseCode;
 use App\Models\Company;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyService
 {
@@ -54,5 +56,65 @@ class CompanyService
 
     public function getCompanyList(array $searchParams = []) {
         return Company::getCompanies(self::handleSearchParams($searchParams));
+    }
+    /**
+     * Handle validation for company input data.
+    */
+
+    public static function handleValidation(array $input): \Illuminate\Contracts\Validation\Validator {
+        $validator = Validator::make($input, [
+            Company::COLUMN_NAME => ['required', 'string', 'max:255'],
+            Company::COLUMN_EMAIL => ['nullable', 'email', 'max:255'],
+            Company::COLUMN_PHONE => ['nullable', 'string', 'max:50'],
+            Company::COLUMN_WEBSITE => ['nullable', 'url', 'max:255'],
+            Company::COLUMN_ADDRESS => ['nullable', 'string', 'max:500'],
+            Company::COLUMN_DESCRIPTION => ['nullable', 'string'],
+            Company::COLUMN_APPLIED_POSITION => ['nullable', 'string', 'max:255'],
+            Company::COLUMN_APPLIED_VIA => ['nullable', 'string', 'max:255'],
+            Company::COLUMN_APPLIED_ON => ['nullable', 'date'],
+            Company::COLUMN_APPLIED_STATUS => ['nullable', 'in:' . implode(',', array_keys(Company::APPLIED_STATUS_LABELS))],
+        ]);
+        
+        return $validator;
+    }
+    /**
+     * Create a new company record.
+    */
+
+    public static function newCompany(array $input): array {
+        $validator = self::handleValidation($input);
+
+        if ($validator->fails()) {
+            return [ResponseCode::VALIDATION_ERROR, $validator->errors()];
+        }
+        [$statusCode, $data] = Company::createNewCompany(self::prepareInput($input));
+        return [$statusCode, $data];
+    } 
+
+    /**
+     * Prepare input data for creating or updating a company record.
+    */
+    public static function prepareInput(array $input): array {
+        $preparedInput = [];
+        $fields = [
+            Company::COLUMN_NAME,
+            Company::COLUMN_WEBSITE,
+            Company::COLUMN_EMAIL,
+            Company::COLUMN_PHONE,
+            Company::COLUMN_ADDRESS,
+            Company::COLUMN_DESCRIPTION,
+            Company::COLUMN_APPLIED_ON,
+            Company::COLUMN_APPLIED_POSITION,
+            Company::COLUMN_APPLIED_VIA,
+            Company::COLUMN_APPLIED_STATUS,
+        ];
+
+        foreach ($fields as $field) {
+            if (isset($input[$field])) {
+                $preparedInput[$field] = $input[$field];
+            }
+        }
+
+        return $preparedInput;
     }
 }

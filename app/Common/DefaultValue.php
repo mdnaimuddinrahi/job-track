@@ -11,4 +11,5 @@ class DefaultValue
     const ALL = 'All'; 
     const FROM = '_from';
     const TO = '_to';
+    const VALIDATION_ERROR_TEXT = 'Validation Error';
 }

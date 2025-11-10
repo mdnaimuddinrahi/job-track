@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Common\DateFormat;
 use App\Common\DefaultValue;
+use App\Common\ResponseCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -140,5 +141,20 @@ class Company extends Model
     {
         $updatedAt = $this->getRawOriginal(self::COLUMN_UPDATED_AT);
         return $updatedAt ? Date::parse($updatedAt)->format(DateFormat::F_j_comma_Y_g_colon_i_a) : '-';
+    }
+
+    public static function createNewCompany(array $data): array
+    {
+        try {
+            $company = self::create($data);
+        } catch (\Exception $e) {
+            return [ResponseCode::INTERNAL_SERVER_ERROR, [
+                'message' => __('Failed to create :name.', ['name' => __('Company')]),
+                'error' => $e->getMessage()
+                ]
+            ];
+        }
+
+        return [ResponseCode::CREATED, ['company' => $company, 'message' => __(':name created successfully.', ['name' => __('Company')])]];
     }
 }
