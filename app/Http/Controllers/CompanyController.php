@@ -17,7 +17,7 @@ class CompanyController extends Controller
         return $this->sendResponse([
             'companies' => $companyServiceObj->getCompanyList($request->all()),
             'columns' => $companyServiceObj->columnNames(),
-        ], ResponseCode::SUCCESS, 
+        ], ResponseCode::CONTINUE, 
         'Company list fetched successfully.');
     }
 

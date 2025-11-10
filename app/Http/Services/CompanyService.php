@@ -9,16 +9,17 @@ class CompanyService
 {
     public function handleSearchParams($search = []): array
     {
-        // if(!empty($searchParams[DefaultValue::PAGINATE]) ) {
-        //     $search[DefaultValue::PAGINATE] = $searchParams[DefaultValue::PAGINATE];
-        //     $search[DefaultValue::PER_PAGE] = $searchParams[DefaultValue::PER_PAGE] ?? DefaultValue::PAGINATION_LIMIT;
-        // }
-        // if (!empty($searchParams['date_filter_by_from'])) {
-        //     $search[$searchParams['date_filter_by_from'] . '_from'] = $searchParams[$searchParams['date_filter_by_from'] . '_from'];
-        // }
-        // if (!empty($searchParams['date_filter_by_to'])) {
-        //     $search[$searchParams['date_filter_by_to'] . '_to'] = $searchParams[$searchParams['date_filter_by_to'] . '_to'];
-        // }
+        if(!empty($search[Company::COLUMN_APPLIED_STATUS])) {
+            if(!is_array($search[Company::COLUMN_APPLIED_STATUS])) {
+                $search[Company::COLUMN_APPLIED_STATUS] = array_map('trim', explode(',', $search[Company::COLUMN_APPLIED_STATUS]));
+            }
+
+            foreach($search[Company::COLUMN_APPLIED_STATUS] as $key => $status) {
+                if(!in_array($status, array_keys(Company::APPLIED_STATUS_LABELS))) {
+                    unset($search[Company::COLUMN_APPLIED_STATUS][$key]);
+                }
+            }
+        }
         if(!empty($search[DefaultValue::SELECTED_COLUMNS])) {
             if(!is_array($search[DefaultValue::SELECTED_COLUMNS])) {
                 $search[DefaultValue::SELECTED_COLUMNS] = array_map('trim', explode(',', $search[DefaultValue::SELECTED_COLUMNS]));

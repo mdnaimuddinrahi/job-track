@@ -12,4 +12,5 @@ class ResponseCode
     const FORBIDDEN = 403;
     const NOT_FOUND = 404;
     const INTERNAL_SERVER_ERROR = 500;
+    const CONTINUE = 100;
 }

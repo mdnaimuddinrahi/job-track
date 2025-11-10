@@ -119,9 +119,9 @@ class Company extends Model
         return self::filter($filters);
     }
 
-    public function getAppliedStatusAttribute(): ?string
+    public function getStatusAttribute(): ?string
     {
-        return self::APPLIED_STATUS_LABELS[$this->getRawOriginal(self::COLUMN_APPLIED_STATUS)] ?? DefaultValue::UNKNOWN;
+        return __(self::APPLIED_STATUS_LABELS[$this->getRawOriginal(self::COLUMN_APPLIED_STATUS)]) ?? __(DefaultValue::UNKNOWN);
     }
 
     public function getFormattedAppliedOnAttribute(): ?string
