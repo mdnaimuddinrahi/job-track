@@ -57,10 +57,10 @@ class CompanyService
     public function getCompanyList(array $searchParams = []) {
         return Company::getCompanies(self::handleSearchParams($searchParams));
     }
+
     /**
      * Handle validation for company input data.
     */
-
     public static function handleValidation(array $input): \Illuminate\Contracts\Validation\Validator {
         $validator = Validator::make($input, [
             Company::COLUMN_NAME => ['required', 'string', 'max:255'],
@@ -77,18 +77,34 @@ class CompanyService
         
         return $validator;
     }
+
     /**
      * Create a new company record.
     */
-
     public static function newCompany(array $input): array {
         $validator = self::handleValidation($input);
 
         if ($validator->fails()) {
-            return [ResponseCode::VALIDATION_ERROR, $validator->errors()];
+            return [ResponseCode::VALIDATION_ERROR, ['errors' => $validator->errors()]];
         }
-        [$statusCode, $data] = Company::createNewCompany(self::prepareInput($input));
-        return [$statusCode, $data];
+
+        try {
+            $company = Company::createNewCompany($input);
+        } catch (\Exception $e) {
+            return [ResponseCode::INTERNAL_SERVER_ERROR, [
+                    'message' => __('Failed to create :name.', ['name' => __('Company')]),
+                    'error' => $e->getMessage()
+                ]
+            ];
+        }
+
+        return [ResponseCode::CREATED, [
+                'company' => $company, 
+                'message' => __(':name created successfully.', [
+                    'name' => __('Company')
+                    ])
+                ]
+            ];
     } 
 
     /**
@@ -116,5 +132,52 @@ class CompanyService
         }
 
         return $preparedInput;
+    }
+
+    /**
+     * Get company details by ID.
+    */
+    public static function getCompanyById(int $id): array {
+        $company = Company::findCompany(Company::COLUMN_ID, $id);
+
+        if(empty($company)) {
+            return [ResponseCode::NOT_FOUND, ['message' => __('Company not found.')]];
+        } 
+        
+        return [ResponseCode::SUCCESS, ['company' => $company]];
+    }
+
+    /**
+     * Update an existing company record.
+    */
+    public static function updateCompany(int $id, array $input): array {
+        [$statusCode, $data] = self::getCompanyById($id);
+
+        if($statusCode === ResponseCode::NOT_FOUND) {
+            return [$statusCode, $data];
+        } 
+
+        $validator = self::handleValidation($input);
+
+        if ($validator->fails()) {
+            return [ResponseCode::VALIDATION_ERROR, ['errors' => $validator->errors()]];
+        }
+        
+        try {
+            $company = Company::updateCompany($data['company'], self::prepareInput($input));
+        } catch (\Exception $e) {
+            return [ResponseCode::INTERNAL_SERVER_ERROR, [
+                    'message' => __('Failed to update :name.', ['name' => __('Company')]),
+                    'error' => $e->getMessage()
+                ]
+            ];
+        }
+
+        return [ResponseCode::SUCCESS, [
+                'company' => $company, 
+                'message' => __(':name updated successfully.', [
+                    'name' => __('Company')])
+                ]
+            ];
     }
 }

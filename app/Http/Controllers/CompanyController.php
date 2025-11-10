@@ -16,7 +16,7 @@ class CompanyController extends Controller
         return $this->sendResponse([
             'companies' => $companyServiceObj->getCompanyList($request->all()),
             'columns' => $companyServiceObj->columnNames(),
-        ], ResponseCode::CONTINUE);
+        ], ResponseCode::SUCCESS);
     }
 
     public function store(Request $request)
@@ -26,28 +26,18 @@ class CompanyController extends Controller
         return $this->sendResponse($data, $statusCode);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Company $company)
+    public function show($id)
     {
-        //
+        [$statusCode, $data] = CompanyService::getCompanyById($id);
+
+        return $this->sendResponse($data, $statusCode);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Company $company)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Company $company)
-    {
-        //
+        [$statusCode, $data] = CompanyService::updateCompany($id, $request->all());
+        
+        return $this->sendResponse($data, $statusCode);
     }
 
     /**

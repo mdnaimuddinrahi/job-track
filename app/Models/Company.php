@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Common\DateFormat;
 use App\Common\DefaultValue;
-use App\Common\ResponseCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -128,33 +127,38 @@ class Company extends Model
     public function getFormattedAppliedOnAttribute(): ?string
     {
         $appliedOn = $this->getRawOriginal(self::COLUMN_APPLIED_ON);
+
         return $appliedOn ? Date::parse($appliedOn)->format(DateFormat::F_j_comma_Y) : '-';
     }
 
     public function getCreatedAtAttribute(): ?string
     {
         $createdAt = $this->getRawOriginal(self::COLUMN_CREATED_AT);
+
         return $createdAt ? Date::parse($createdAt)->format(DateFormat::F_j_comma_Y_g_colon_i_a) : '-';
     }
 
     public function getUpdatedAtAttribute(): ?string
     {
         $updatedAt = $this->getRawOriginal(self::COLUMN_UPDATED_AT);
+
         return $updatedAt ? Date::parse($updatedAt)->format(DateFormat::F_j_comma_Y_g_colon_i_a) : '-';
     }
 
-    public static function createNewCompany(array $data): array
+    public static function createNewCompany(array $data): Object
     {
-        try {
-            $company = self::create($data);
-        } catch (\Exception $e) {
-            return [ResponseCode::INTERNAL_SERVER_ERROR, [
-                'message' => __('Failed to create :name.', ['name' => __('Company')]),
-                'error' => $e->getMessage()
-                ]
-            ];
-        }
+        return self::create($data);
+    }
 
-        return [ResponseCode::CREATED, ['company' => $company, 'message' => __(':name created successfully.', ['name' => __('Company')])]];
+    public static function findCompany($findBy, $value): ?Company
+    {
+        return self::where($findBy, $value)->first();
+    }
+
+    public static function updateCompany(Company $company, array $data): Company
+    {
+        $company->update($data);
+        
+        return $company;
     }
 }
