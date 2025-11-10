@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Common\ResponseCode;
 use App\Http\Services\CompanyService;
-use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -39,12 +38,10 @@ class CompanyController extends Controller
         
         return $this->sendResponse($data, $statusCode);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Company $company)
+    public function destroy($id)
     {
-        //
+        [$statusCode, $data] = CompanyService::deleteCompany($id);
+
+        return $this->sendResponse($data, $statusCode);
     }
 }

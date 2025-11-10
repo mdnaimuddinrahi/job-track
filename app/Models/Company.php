@@ -161,4 +161,9 @@ class Company extends Model
         
         return $company;
     }
+
+    public static function deleteCompany(Company $company): bool
+    {
+        return $company->delete();
+    }
 }

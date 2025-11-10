@@ -180,4 +180,38 @@ class CompanyService
                 ]
             ];
     }
+
+    /**
+     * Delete a company record.
+    */
+    public static function deleteCompany(int $id): array {
+        [$statusCode, $data] = self::getCompanyById($id);
+
+        if($statusCode === ResponseCode::NOT_FOUND) {
+            return [$statusCode, $data];
+        } 
+
+        try {
+            $company = Company::deleteCompany($data['company']);
+
+            if (!$company) {
+                return [ResponseCode::INTERNAL_SERVER_ERROR, [
+                        'message' => __('Failed to delete :name.', ['name' => __('Company')])
+                    ]
+                ];
+            }
+        } catch (\Exception $e) {
+            return [ResponseCode::INTERNAL_SERVER_ERROR, [
+                    'message' => __('Failed to delete :name.', ['name' => __('Company')]),
+                    'error' => $e->getMessage()
+                ]
+            ];
+        }
+
+        return [ResponseCode::SUCCESS, [
+                'message' => __(':name deleted successfully.', [
+                    'name' => __('Company')])
+                ]
+            ];
+    }
 }
