@@ -2,6 +2,7 @@
 import './globals.css';
 import Sidebar from '../components/Sidebar';
 import React from 'react';
+import Header from '@/components/Header';
 
 export const metadata = { title: 'Admin' };
 
@@ -16,14 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           
           <div className="flex-1 flex flex-col">
+            <Header />
             
-            <header className="bg-white shadow p-4 flex justify-between items-center">
-              <h1 className="text-xl font-bold">Dashboard</h1>
-              <div className="flex items-center space-x-4">
-                <input type="text" placeholder="Search..." className="px-3 py-1 border rounded" />
-                <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Logout</button>
-              </div>
-            </header>
 
             
             <main className="flex-1 p-6 overflow-auto">
