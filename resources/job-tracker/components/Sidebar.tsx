@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Settings, ChevronDown, ChevronUp } from "lucide-react";
+import { Home, Users, ChevronDown, ChevronUp, Building2 } from "lucide-react";
 import { animate } from "@motionone/dom";
 
 type SubItem = { href: string; label: string };
@@ -31,14 +31,15 @@ export default function Sidebar() {
       ],
     },
     {
-      label: "Settings",
-      icon: Settings,
+      label: "Companies",
+      icon: Building2,
       subItems: [
-        { href: "/settings/profile", label: "Profile" },
+        { href: "/companies", label: "Companies" },
         { href: "/settings/security", label: "Security" },
       ],
     },
     { label: "Home", icon: Home, href: "/home" },
+    
   ];
 
   // ✅ Keep submenu open when route matches

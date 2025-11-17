@@ -13,14 +13,14 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company(),
-            'website' => $this->faker->url(),
-            'email' => $this->faker->companyEmail(),
-            'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
-            'description' => $this->faker->paragraph(),
-            'applied_on' => $this->faker->date(),
-            'applied_status' => $this->faker->randomElement([
+            Company::COLUMN_NAME => $this->faker->company(),
+            Company::COLUMN_WEBSITE => $this->faker->url(),
+            Company::COLUMN_EMAIL => $this->faker->companyEmail(),
+            Company::COLUMN_PHONE => $this->faker->phoneNumber(),
+            Company::COLUMN_ADDRESS => $this->faker->address(),
+            Company::COLUMN_DESCRIPTION => $this->faker->paragraph(),
+            Company::COLUMN_APPLIED_ON => $this->faker->date(),
+            Company::COLUMN_APPLIED_STATUS => $this->faker->randomElement([
                 Company::APPLIED_STATUS_PENDING,
                 Company::APPLIED_STATUS_INTERESTED,
                 Company::APPLIED_STATUS_APPLIED,
@@ -28,8 +28,8 @@ class CompanyFactory extends Factory
                 Company::APPLIED_STATUS_OFFERED,
                 Company::APPLIED_STATUS_REJECTED,
             ]),
-            'applied_position' => $this->faker->jobTitle(),
-            'applied_via' => $this->faker->randomElement(['LinkedIn', 'Website', 'Email', 'Referral', 'Job Portal']),
+            Company::COLUMN_APPLIED_POSITION => $this->faker->jobTitle(),
+            Company::COLUMN_APPLIED_VIA => $this->faker->randomElement(['LinkedIn', 'Website', 'Email', 'Referral', 'Job Portal']),
         ];
     }
 }
