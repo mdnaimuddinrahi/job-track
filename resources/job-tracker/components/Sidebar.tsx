@@ -34,7 +34,7 @@ export default function Sidebar() {
       label: "Companies",
       icon: Building2,
       subItems: [
-        { href: "/companies", label: "Companies" },
+        { href: "/companies/list", label: "Companies" },
         { href: "/settings/security", label: "Security" },
       ],
     },

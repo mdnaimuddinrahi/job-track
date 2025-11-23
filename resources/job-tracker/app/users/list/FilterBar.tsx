@@ -2,6 +2,7 @@
 import { X } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 import Select from "react-select";
+import SearchBar from "@/components/SearchBar";
 
 export default function FilterBar({ filters, setFilters }: any) {
   const roleOptions = [
@@ -26,7 +27,7 @@ export default function FilterBar({ filters, setFilters }: any) {
     });
 
   return (
-    <div className="bg-white border rounded-xl shadow-sm p-4 flex flex-wrap gap-4 items-end">
+    <SearchBar>
       {/* Search */}
       <div>
         <label className="block text-xs font-semibold mb-1">Search</label>
@@ -43,7 +44,6 @@ export default function FilterBar({ filters, setFilters }: any) {
       <div>
         <label className="block text-xs font-semibold mb-1">Role</label>
         <Select
-          isMulti
           value={filters.role}
           options={roleOptions}
           className="w-48 text-sm"
@@ -83,6 +83,6 @@ export default function FilterBar({ filters, setFilters }: any) {
       >
         <X className="w-4 h-4" /> Clear Filters
       </button>
-    </div>
+    </SearchBar>
   );
 }
