@@ -1,49 +1,109 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+"use client";
 
-export default function Pagination({
-  current,
+interface PaginationProps {
+  total: number;       // total items
+  perPage: number;     // items per page
+  page: number;        // current page
+  onChange: (page: number) => void;
+}
+
+export default function PaginationTwo({
   total,
-  onPageChange,
-}: {
-  current: number;
-  total: number;
-  onPageChange: (p: number) => void;
-}) {
-  const pages = Array.from({ length: total }, (_, i) => i + 1);
+  perPage,
+  page,
+  onChange,
+}: PaginationProps) {
+  const totalPages = Math.ceil(total / perPage);
+
+  const getPageNumbers = () => {
+    const pages: (number | "...")[] = [];
+
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    if (page <= 3) {
+      pages.push(1, 2, 3, 4, "...", totalPages);
+    } else if (page >= totalPages - 2) {
+      pages.push(1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(1, "...", page - 1, page, page + 1, "...", totalPages);
+    }
+
+    return pages;
+  };
+
+  const pages = getPageNumbers();
+
+  const goToPage = (p: number) => {
+    if (p < 1 || p > totalPages) return;
+    onChange(p);
+  };
 
   return (
-    <div className="flex justify-between items-center bg-white border rounded-xl px-4 py-2 shadow-sm">
-      <button
-        disabled={current === 1}
-        onClick={() => onPageChange(current - 1)}
-        className="flex items-center gap-1 text-sm text-gray-600 disabled:text-gray-400"
-      >
-        <ChevronLeft className="w-4 h-4" /> Prev
-      </button>
+    <div className="px-4 pb-4 flex justify-between items-center mt-4 w-full">
 
-      <div className="flex gap-1">
-        {pages.slice(0, 5).map((p) => (
-          <button
-            key={p}
-            onClick={() => onPageChange(p)}
-            className={`px-3 py-1 text-sm rounded ${
-              p === current
-                ? "bg-blue-600 text-white"
-                : "text-gray-600 hover:bg-gray-100"
-            }`}
-          >
-            {p}
-          </button>
-        ))}
+      <p className="text-sm text-gray-500">
+        Showing {(page - 1) * perPage + 1} to {Math.min(page * perPage, total)} of {total} entries
+      </p>
+
+      <div className="flex items-center gap-2">
+
+        {/* First */}
+        <button
+          onClick={() => goToPage(1)}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"
+        >
+          «
+        </button>
+
+        {/* Prev */}
+        <button
+          onClick={() => goToPage(page - 1)}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"
+          disabled={page === 1}
+        >
+          ‹
+        </button>
+
+        {/* Page numbers */}
+        {pages.map((p, i) =>
+          p === "..." ? (
+            <span key={i} className="px-2 text-gray-400">…</span>
+          ) : (
+            <button
+              key={i}
+              onClick={() => goToPage(p)}
+              className={`w-8 h-8 flex items-center justify-center rounded-full 
+                ${
+                  p === page
+                    ? "bg-indigo-500 text-white font-medium"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+            >
+              {p}
+            </button>
+          )
+        )}
+
+        {/* Next */}
+        <button
+          onClick={() => goToPage(page + 1)}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"
+          disabled={page === totalPages}
+        >
+          ›
+        </button>
+
+        {/* Last */}
+        <button
+          onClick={() => goToPage(totalPages)}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"
+        >
+          »
+        </button>
+
       </div>
-
-      <button
-        disabled={current === total}
-        onClick={() => onPageChange(current + 1)}
-        className="flex items-center gap-1 text-sm text-gray-600 disabled:text-gray-400"
-      >
-        Next <ChevronRight className="w-4 h-4" />
-      </button>
     </div>
   );
 }

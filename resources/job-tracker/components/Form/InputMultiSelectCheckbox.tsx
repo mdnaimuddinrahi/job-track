@@ -68,11 +68,11 @@ const InputMultiSelectCheckbox = () => {
         MultiValue,
         ValueContainer,
       }}
+      className="text-xs"
       placeholder="Select options..."
       styles={{
         valueContainer: (base) => ({
           ...base,
-          padding: "6px",
           display: "flex",
           overflow: "hidden",
         }),
@@ -80,6 +80,10 @@ const InputMultiSelectCheckbox = () => {
         control: (base) => ({
           ...base,
           minHeight: 42,
+        }),
+        menu: (base) => ({
+          ...base,
+          zIndex: 9999,
         }),
       }}
     />

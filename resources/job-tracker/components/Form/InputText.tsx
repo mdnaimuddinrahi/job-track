@@ -13,7 +13,7 @@ export default function InputText({name, id, label, placeholder}: InputTextBarPr
         <input
             type="text"
             id={id ?? name}
-            className="peer w-full px-2 py-2 border border-gray-400 rounded-md text-sm bg-transparent focus:outline-none focus:border-blue-500"
+            className="peer w-full px-2 py-2.5 border border-gray-400 rounded-md text-sm bg-transparent focus:outline-none focus:border-blue-500"
             placeholder={placeholder ?? " "} 
         />
 

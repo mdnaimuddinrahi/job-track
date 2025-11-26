@@ -1,12 +1,9 @@
 "use client";
-
 import { useState } from "react";
-import FilterBar from "./FilterBar";
+import CompanyFilterBar from "./CompanyFilterBar";
 import CompanyTable from "./CompanyTable";
-import Pagination from "@/components/Pagination";
-import PaginationTwo from "@/components/PaginationTwo";
-import InputMultiSelectCheckbox from "@/components/Form/InputMultiSelectCheckbox";
-import ListHeading from "@/components/ListHeading";
+import PaginationTwo from "@/components/Pagination";
+import HeadingSection from "@/components/Section/HeadingSection";
 
 export default function UserListPage() {
   const [filters, setFilters] = useState({
@@ -23,9 +20,9 @@ export default function UserListPage() {
   return (
     <div className="" >
       <div className=" bg-white rounded-md shadow-sm">
-        <ListHeading title="Companies List" />
+        <HeadingSection title="Companies List" />
         <hr className="border-t border-gray-100 mb-3" />
-        <FilterBar/>
+        <CompanyFilterBar filters={filters} setFilters={setFilters} />
         <CompanyTable />
         <hr className="border-t border-gray-100 mb-3" />
         <PaginationTwo

@@ -14,6 +14,8 @@ interface FloatingSelectProps {
   value: Option | null;
   onChange: (v: Option | null) => void;
   options: Option[];
+  minWidth?: string;
+  isClearable?: boolean;
 }
 
 export default function InputSelect({
@@ -23,12 +25,14 @@ export default function InputSelect({
   value,
   onChange,
   options,
+  minWidth,
+  isClearable = true,
 }: FloatingSelectProps) {
   const inputId = id ?? name;
   const hasValue = !!value;
 // const isFloating = hasValue; // Add this state
   return (
-    <div className="relative w-64">
+    <div className={`relative ${minWidth ? `w-${minWidth}` : "w-64"}`}>
       {/* Floating Label */}
       
         <label
@@ -48,7 +52,7 @@ export default function InputSelect({
   onChange={(v) => onChange(v)}
   options={options}
   placeholder=""  // <-- IMPORTANT: Remove space placeholder
-  isClearable   
+  isClearable={isClearable}   
   // classNamePrefix="rs"
   className="text-xs"
   styles={{
@@ -63,6 +67,10 @@ export default function InputSelect({
     valueContainer: (base) => ({
       ...base,
     }),
+    control: (base) => ({
+          ...base,
+          minHeight: 42,
+        }),
     menu: (base) => ({
       ...base,
       zIndex: 9999,
