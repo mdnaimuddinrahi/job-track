@@ -34,7 +34,7 @@ export default function MultiSelect({
       <label
         htmlFor={inputId}
         className={`
-          absolute left-3 px-1 bg-white z-20 transition-all pointer-events-none
+          absolute left-3 px-1 bg-white z-10 transition-all pointer-events-none
           ${hasValue ? "-top-2 text-xs text-gray-600" : "top-2 text-sm text-gray-400"}
         `}
       >

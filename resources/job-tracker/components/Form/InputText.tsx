@@ -9,7 +9,7 @@ type InputTextBarProps = {
 
 export default function InputText({name, id, label, placeholder}: InputTextBarProps) {
   return (
-    <div className="relative w-full mx-3">
+    <div className="relative w-full">
         <input
             type="text"
             id={id ?? name}

@@ -19,7 +19,6 @@ export default function CompanyTable() {
       exp: "9 Years",
       age: 59,
     },
-    // ... add your real API data here
   ];
 
   return (
