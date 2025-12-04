@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import { Geist, Geist_Mono } from "next/font/google";
 import { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
+import ReduxProvider from './Provider/ReduxProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,31 +35,17 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className='flex h-screen'>
-            <Sidebar/>
-            <div className="flex-1 flex flex-col">
-              <Header />
-              {children}
+          <ReduxProvider>
+            <div className='flex h-screen'>
+                <Sidebar/>
+                <div className="flex-1 flex flex-col">
+                  <Header />
+                  {children}
+              </div>
             </div>
-          </div>
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
-
-// export default function RootLayout({ children }: { children: React.ReactNode }) {
-//   return (
-//     <html lang="en" className="light">
-//       <body className="bg-gray-100 font-sans">
-//         <div className="flex h-screen">
-//           <Sidebar />  
-//           <div className="flex-1 flex flex-col">
-//             <Header />
-//             {children}
-//           </div>
-//         </div>
-//       </body>
-//     </html>
-//   );
-// }

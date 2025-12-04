@@ -14,6 +14,7 @@ interface FloatingMultiSelectProps {
   value: Option[];                  // MULTI: array of options
   onChange: (v: Option[]) => void;
   options: Option[];
+  minWidth?: string;
 }
 
 export default function MultiSelect({
@@ -23,12 +24,13 @@ export default function MultiSelect({
   value,
   onChange,
   options,
+  minWidth,
 }: FloatingMultiSelectProps) {
   const inputId = id ?? name;
   const hasValue = value && value.length > 0;
 
   return (
-    <div className="relative w-64">
+    <div className={`relative ${minWidth ? `w-${minWidth}` : "w-64"}`}>
 
       {/* Floating Label */}
       <label

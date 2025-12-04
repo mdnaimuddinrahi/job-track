@@ -34,6 +34,7 @@ const ValueContainer = (props: any) => {
   return (
     <components.ValueContainer {...props}>
       <div className="truncate flex gap-1">
+
         {extra > 0 && (
           <span className="text-gray-500">{extra} selected columns</span>
         )}
@@ -48,14 +49,9 @@ type Props = {
 
 const InputMultiSelectCheckbox = ({columnOptions}: Props) => {
   
-  // const handleOnChange = () => { 
-  //   // alert("Change detected!");
-  //   console.log("Change detected!");
-  //  };
+
   return (
     <Select
-      // onFocus={() => handleOnChange()}
-      // onMenuOpen={()=> handleOnChange()}
       options={columnOptions}
       isMulti
       closeMenuOnSelect={false}

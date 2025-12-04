@@ -46,12 +46,16 @@ export default function CompanyFilterBar({ filters, setFilters }: any) {
   return (
     <SearchSection>
       <InputText label="Company Name" name="search" id="search" />
+      <InputText label="Email" name="email" id="email" />
+      <InputText label="Website" name="website" id="website" />
+      <InputText label="Applied Position" name="applied_position" id="applied_position" />
       <InputSelect
         name="role"
         label="Role"
         value={role}
         onChange={setRole}
         options={roleOptions}
+        minWidth="full"
       />
       <InputMultiSelect
         name="status"
@@ -59,6 +63,7 @@ export default function CompanyFilterBar({ filters, setFilters }: any) {
         value={status}
         onChange={setStatus}
         options={statusOptions}
+        minWidth="full"
       />
 
     </SearchSection>

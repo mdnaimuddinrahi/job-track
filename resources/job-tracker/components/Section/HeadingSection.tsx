@@ -8,7 +8,12 @@ const InputMultiSelectCheckbox = dynamic(() => import("@/components/Form/InputMu
   ssr: false,
 });
 
-export default function HeadingSection({ title }: { title: string }) {
+type Props = {
+  title: string;
+  columnOptions?: { value: string; label: string }[];
+};
+
+export default function HeadingSection({ title, columnOptions }: Props) {
   const [perPage, setPerPage] = useState<{ value: string; label: string }>({
     value: "10",
     label: "10",
@@ -34,7 +39,7 @@ export default function HeadingSection({ title }: { title: string }) {
             minWidth="30"
             isClearable={false}
           />
-          <InputMultiSelectCheckbox />
+          <InputMultiSelectCheckbox columnOptions={columnOptions || []}/>
           <HeadingSearchBtn />
         </div>
      </div>
