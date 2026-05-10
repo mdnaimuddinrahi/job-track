@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +47,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function filter(array $filter = []): Builder
+    {
+        return $this->query()
+                    ->when(!empty($filter['user_ids']), function(Builder $query) use($filter) {
+                        $query->whereIn('id', $filter['user_ids']);
+                    })
+                    ->when(!empty($filter['selected_cols']), function (Builder $query) use ($filter) {
+                        $query->select($filter['selected_cols']);
+                    });
+    }
+
+    public function getUsers(array $filter=[]) {
+        return $this->filter($filter)->get();
     }
 }

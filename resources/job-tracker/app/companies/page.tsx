@@ -4,7 +4,6 @@ export default async function CompaniesPage() {
  const { data: data } = await api("/companies");
   console.log("data", data.companies);
 
-
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold mb-4">Companies</h1>
